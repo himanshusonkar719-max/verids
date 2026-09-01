@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="VeriDS - Misinformation and Fake News Detection">
+  <title>VeriDS - Detect Misinformation</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app" class="app">
+    <!-- Input State -->
+    <div id="inputState" class="state active">
+      <div class="container">
+        <header class="header">
+          <div class="header-content">
+            <h1 class="title">VeriDS</h1>
+            <p class="subtitle">Misinformation & Fake News Detection</p>
+          </div>
+        </header>
+
+        <main class="input-section">
+          <div class="input-card">
+            <!-- Tabs -->
+            <div class="tab-bar" role="tablist">
+              <button
+                id="textTab"
+                class="tab-button active"
+                role="tab"
+                aria-selected="true"
+                aria-controls="textPanel"
+              >
+                <span class="tab-icon">📝</span>
+                Text
+              </button>
+              <button
+                id="urlTab"
+                class="tab-button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="urlPanel"
+              >
+                <span class="tab-icon">🔗</span>
+                URL
+              </button>
+            </div>
+
+            <!-- Text Input Panel -->
+            <div id="textPanel" class="tab-panel active" role="tabpanel" aria-labelledby="textTab">
+              <form id="textForm" class="input-form">
+                <div class="form-group">
+                  <label for="textInput" class="form-label">
+                    Paste article text or headline
+                  </label>
+                  <textarea
+                    id="textInput"
+                    class="text-input"
+                    placeholder="Enter the article text, headline, or claim you want to verify..."
+                    rows="6"
+                    aria-describedby="textHint"
+                  ></textarea>
+                  <div id="textHint" class="form-hint">
+                    ✓ Works with headlines, claims, or full articles
+                  </div>
+                </div>
+                <button type="submit" class="button button-primary">
+                  Analyze Text
+                </button>
+              </form>
+            </div>
+
+            <!-- URL Input Panel -->
+            <div id="urlPanel" class="tab-panel" role="tabpanel" aria-labelledby="urlTab">
+              <form id="urlForm" class="input-form">
+                <div class="form-group">
+                  <label for="urlInput" class="form-label">
+                    Enter article URL
+                  </label>
+                  <input
+                    id="urlInput"
+                    type="url"
+                    class="text-input"
+                    placeholder="https://example.com/article"
+                    aria-describedby="urlHint"
+                  />
+                  <div id="urlHint" class="form-hint">
+                    ✓ Paste the full article link to analyze
+                  </div>
+                </div>
+                <button type="submit" class="button button-primary">
+                  Analyze URL
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Help Section -->
+          <div class="help-section">
+            <h2 class="section-title">How VeriDS Works</h2>
+            <div class="help-grid">
+              <div class="help-card">
+                <div class="help-icon">🔍</div>
+                <h3>Verification</h3>
+                <p>Cross-references content against reputable news sources and fact-check databases</p>
+              </div>
+              <div class="help-card">
+                <div class="help-icon">📊</div>
+                <h3>Analysis</h3>
+                <p>Examines linguistic patterns, source credibility, and corroboration signals</p>
+              </div>
+              <div class="help-card">
+                <div class="help-icon">⚡</div>
+                <h3>Results</h3>
+                <p>Provides detailed evidence breakdown and confidence score</p>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loadingState" class="state">
+      <div class="container">
+        <div class="loading-content">
+          <div class="spinner">
+            <div class="spinner-ring"></div>
+            <div class="spinner-text">Analyzing...</div>
+          </div>
+          <p class="loading-message">VeriDS is cross-referencing sources and analyzing content</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Result State -->
+    <div id="resultState" class="state">
+      <div class="container">
+        <header class="result-header">
+          <button id="backButton" class="back-button" aria-label="Go back to input">
+            ← Back
+          </button>
+          <h1 class="title">Analysis Result</h1>
+          <div style="width: 40px;"></div>
+        </header>
+
+        <main class="result-section">
+          <!-- Main Score Card -->
+          <div class="score-card">
+            <div class="score-gauge-container">
+              <svg id="scoreGauge" class="score-gauge" viewBox="0 0 200 200" aria-labelledby="scoreLabel">
+                <defs>
+                  <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" class="gradient-start" />
+                    <stop offset="100%" class="gradient-end" />
+                  </linearGradient>
+                </defs>
+                <circle class="gauge-bg" cx="100" cy="100" r="90" />
+                <circle class="gauge-progress" cx="100" cy="100" r="90" />
+                <text id="scoreText" class="score-text" x="100" y="100" text-anchor="middle" dy=".3em">0</text>
+              </svg>
+            </div>
+            <div class="score-info">
+              <h2 id="verdictTitle" class="verdict-title">Analyzing...</h2>
+              <p id="verdictBadge" class="verdict-badge">Pending</p>
+              <p id="scoreExplanation" class="score-explanation"></p>
+            </div>
+          </div>
+
+          <!-- Result Title -->
+          <div class="result-title-card">
+            <h2 id="resultTitle" class="result-title"></h2>
+            <p id="resultUrl" class="result-url"></p>
+          </div>
+
+          <!-- Evidence Breakdown -->
+          <div class="evidence-section">
+            <h2 class="section-title">Evidence Breakdown</h2>
+            
+            <div class="evidence-cards">
+              <!-- Source Trust Card -->
+              <div class="evidence-card">
+                <div class="evidence-header">
+                  <h3 class="evidence-title">Source Trust</h3>
+                  <div id="sourceTrustScore" class="evidence-score">-</div>
+                </div>
+                <div class="progress-bar">
+                  <div id="sourceTrustBar" class="progress-fill"></div>
+                </div>
+                <ul id="sourceTrustList" class="evidence-list"></ul>
+              </div>
+
+              <!-- Linguistic Analysis Card -->
+              <div class="evidence-card">
+                <div class="evidence-header">
+                  <h3 class="evidence-title">Language Analysis</h3>
+                  <div id="linguisticScore" class="evidence-score">-</div>
+                </div>
+                <div class="progress-bar">
+                  <div id="linguisticBar" class="progress-fill"></div>
+                </div>
+                <ul id="linguisticList" class="evidence-list"></ul>
+              </div>
+
+              <!-- Corroboration Card -->
+              <div class="evidence-card">
+                <div class="evidence-header">
+                  <h3 class="evidence-title">Corroboration</h3>
+                  <div id="corroborationScore" class="evidence-score">-</div>
+                </div>
+                <div class="progress-bar">
+                  <div id="corroborationBar" class="progress-fill"></div>
+                </div>
+                <ul id="corroborationList" class="evidence-list"></ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sources Used -->
+          <div class="sources-section">
+            <h2 class="section-title">Sources Used</h2>
+            <div id="sourcesList" class="sources-list"></div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div id="errorState" class="state">
+      <div class="container">
+        <div class="error-content">
+          <div class="error-icon">⚠️</div>
+          <h2 id="errorTitle" class="error-title">Error</h2>
+          <p id="errorMessage" class="error-message"></p>
+          <p id="errorDetails" class="error-details"></p>
+          <button id="errorBackButton" class="button button-primary" aria-label="Go back to input">
+            Try Again
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

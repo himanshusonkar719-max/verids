@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "VeriDS Fact-Check Intelligence",
+  "version": "1.0.0",
+  "description": "1-Click article verification and logical fallacy scanner directly from any website.",
+  "permissions": [
+    "activeTab",
+    "contextMenus",
+    "storage"
+  ],
+  "host_permissions": [
+    "http://localhost:3000/*",
+    "http://*/*",
+    "https://*/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "VeriDS Intelligence"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
+}

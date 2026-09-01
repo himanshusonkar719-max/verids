@@ -1,0 +1,179 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                                                                            ║
+║                    🔍 VeriDS - QUICK START GUIDE                          ║
+║              Misinformation & Fake News Detection Web App                  ║
+║                                                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 WHAT'S INCLUDED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ server.js                - Express REST API backend
+✓ analysis-engine.js       - Core misinformation detection engine
+✓ package.json             - Node.js dependencies
+✓ public/index.html        - Frontend single-page app
+✓ public/app.js            - Frontend JavaScript (state management)
+✓ public/styles.css        - Responsive design & animations
+✓ README.md                - Full documentation
+✓ TEST_RESULTS.md          - All test results verified
+
+Total: Complete working web app with backend + frontend
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚀 INSTALLATION (3 STEPS)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 1: Extract the zip file
+   $ unzip verids-complete.zip
+   $ cd verids-complete
+
+STEP 2: Install dependencies (express, cors)
+   $ npm install
+
+STEP 3: Start the server
+   $ npm start
+
+   Output:
+   🔍 VeriDS running on http://localhost:3000
+   📝 Analysis engine ready for text and URL verification
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🌐 OPEN IN BROWSER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+   http://localhost:3000
+
+You'll see:
+  • Input form with Text/URL tabs
+  • Paste article text or URL
+  • Click "Analyze"
+  • Get credibility score + detailed evidence breakdown
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚙️ REQUIREMENTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ Node.js 16+ (download from nodejs.org)
+✓ npm (comes with Node.js)
+
+Check your versions:
+   $ node --version   (should be v16+)
+   $ npm --version    (should be 7+)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🧪 TEST THE API (EXAMPLES)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ANALYZE TEXT:
+   curl -X POST http://localhost:3000/api/analyze/text \
+     -H "Content-Type: application/json" \
+     -d '{"text": "Scientists confirm findings in peer-reviewed research."}'
+
+ANALYZE URL:
+   curl -X POST http://localhost:3000/api/analyze/url \
+     -H "Content-Type: application/json" \
+     -d '{"url": "https://www.bbc.com/news/article"}'
+
+HEALTH CHECK:
+   curl http://localhost:3000/api/health
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✨ FEATURES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ Real misinformation detection engine
+✓ Multi-signal analysis:
+  - Source trust scoring
+  - Linguistic pattern detection
+  - Corroboration verification
+✓ Animated credibility gauge (0-100)
+✓ Detailed evidence breakdown
+✓ Text or URL input modes
+✓ Responsive design (mobile/tablet/desktop)
+✓ Accessible (WCAG AA compliant)
+✓ No database required
+✓ Zero configuration
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📚 DOCUMENTATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Read these files for more details:
+
+  README.md
+    → Full architecture overview
+    → Detailed API documentation
+    → Feature descriptions
+    → Design system reference
+
+  TEST_RESULTS.md
+    → All test cases verified
+    → Performance metrics
+    → Accessibility checklist
+    → Quality assurance report
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+❓ TROUBLESHOOTING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Q: "Port 3000 already in use"
+A: Kill the process: lsof -i :3000  (then kill <PID>)
+   Or use a different port: PORT=3001 npm start
+
+Q: "npm install fails"
+A: Make sure Node.js 16+ is installed
+   npm cache clean --force
+   npm install
+
+Q: "Page not loading at localhost:3000"
+A: Check server is running:
+   curl http://localhost:3000/api/health
+   Should return: {"status":"ok","version":"1.0.0"}
+
+Q: "Analysis returns error"
+A: Check the error message - each error has a specific reason
+   (network error, invalid URL, no article content found, etc.)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 PROJECT STRUCTURE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+verids-complete/
+├── server.js                    Express API server
+├── analysis-engine.js           Core analysis engine (~500 lines)
+├── package.json                 Dependencies (express, cors)
+├── README.md                    Full documentation
+├── TEST_RESULTS.md              All test results
+└── public/
+    ├── index.html               Single-page app UI
+    ├── app.js                   Frontend JavaScript (~400 lines)
+    └── styles.css               Responsive design (~600 lines)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎨 DESIGN FEATURES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ Off-white background (#FAF9F6)
+✓ Pastel green primary color (#A8D5BA)
+✓ Semantic status colors (emerald/amber/red)
+✓ Smooth animations with cubic-bezier easing
+✓ Animated radial gauge for credibility score
+✓ Mobile-first responsive design
+✓ Dark mode compatible (CSS variables)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📞 SUPPORT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+For issues or questions:
+  1. Check server logs: tail -f /tmp/server.log
+  2. Test health endpoint: curl http://localhost:3000/api/health
+  3. Read README.md for API documentation
+  4. Check TEST_RESULTS.md for expected behavior
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Ready to detect misinformation? Follow the 3-step installation above!
+
+VeriDS v1.0.0 | MIT License

@@ -1,0 +1,24 @@
+{
+  "name": "verids",
+  "version": "1.0.0",
+  "description": "VeriDS - Misinformation & Fake News Detection Web App",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "node test.js"
+  },
+  "keywords": [
+    "misinformation",
+    "fact-check",
+    "fake-news",
+    "detection"
+  ],
+  "author": "VeriDS Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  }
+}

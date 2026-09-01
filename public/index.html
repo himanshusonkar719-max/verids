@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="VeriDS - Misinformation & Fact-Check Intelligence Platform">
+  <title>VeriDS - Misinformation & Fact-Check Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/jpeg" href="logo.jpg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app" class="app">
+    <!-- Navigation -->
+    <nav class="top-nav" aria-label="Global Navigation">
+      <div class="nav-container">
+        <div class="nav-brand">
+          <img src="logo.jpg" alt="VeriDS Icon" class="nav-brand-img" />
+          <span class="brand-title">VeriDS Intelligence</span>
+        </div>
+        <div class="nav-controls">
+          <select id="langSelect" class="nav-select" title="Target Analysis Language">
+            <option value="auto">🌐 Auto Language</option>
+            <option value="en">🇺🇸 English</option>
+            <option value="es">🇪🇸 Spanish</option>
+            <option value="fr">🇫🇷 French</option>
+            <option value="de">🇩🇪 German</option>
+            <option value="hi">🇮🇳 Hindi</option>
+          </select>
+          <button id="historyToggleBtn" class="nav-button" aria-label="Toggle history drawer" title="Recent Fact-Checks">
+            <svg class="nav-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span class="nav-text">History</span>
+            <span id="historyBadge" class="history-count-badge">0</span>
+          </button>
+          <button id="themeToggleBtn" class="nav-button" aria-label="Toggle theme" title="Switch Theme">
+            <svg id="themeIconSun" class="nav-svg theme-icon hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <svg id="themeIconMoon" class="nav-svg theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- History Drawer -->
+    <div id="historyOverlay" class="drawer-overlay" aria-hidden="true"></div>
+    <aside id="historyDrawer" class="drawer" aria-label="Recent History" aria-hidden="true">
+      <div class="drawer-header">
+        <h3 class="drawer-title">
+          <svg class="drawer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Recent Fact-Checks
+        </h3>
+        <button id="closeDrawerBtn" class="close-button" aria-label="Close drawer"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      </div>
+      <div class="drawer-body"><div id="historyList" class="history-list"></div></div>
+      <div class="drawer-footer"><button id="clearHistoryBtn" class="button button-secondary button-sm">Clear History</button></div>
+    </aside>
+
+    <!-- Input State -->
+    <div id="inputState" class="state active">
+      <div class="container">
+        <header class="header">
+          <div class="header-content">
+            <div class="brand-badge">
+              <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              <span>VeriDS Intelligence Platform</span>
+            </div>
+            <h1 class="title">Verify Any Article, Claim, or Rhetoric</h1>
+            <p class="subtitle">Real-time misinformation analysis powered by cross-referencing, NLP linguistic checks, and logical fallacy detection.</p>
+          </div>
+        </header>
+
+        <main class="input-section">
+          <div class="input-card">
+            <div class="tab-bar" role="tablist" aria-label="Input selection">
+              <div class="tab-slider" id="tabSlider"></div>
+              <button id="textTab" class="tab-button active" role="tab" aria-selected="true" aria-controls="textPanel">
+                <svg class="tab-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                Article Text
+              </button>
+              <button id="urlTab" class="tab-button" role="tab" aria-selected="false" aria-controls="urlPanel">
+                <svg class="tab-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                Web Article URL
+              </button>
+            </div>
+
+            <!-- Text Input Panel -->
+            <div id="textPanel" class="tab-panel active" role="tabpanel" aria-labelledby="textTab">
+              <form id="textForm" class="input-form">
+                <div class="form-group">
+                  <div class="label-row">
+                    <label for="textInput" class="form-label">Paste claim, headline, or full body text</label>
+                    <span id="charCount" class="char-count">0 chars • 0 words</span>
+                  </div>
+                  <textarea id="textInput" class="text-input" placeholder="Paste an article headline, statement, or paragraph you want to fact-check..." rows="6" aria-describedby="textHint"></textarea>
+                  <div class="form-meta">
+                    <span id="textHint" class="form-hint">
+                      <svg class="hint-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                      Analyzes linguistic sentiment, clickbait patterns, and factual corroboration
+                    </span>
+                  </div>
+                </div>
+                <div class="presets-container">
+                  <span class="presets-label">Try a sample claim:</span>
+                  <div class="preset-chips">
+                    <button type="button" class="chip-button" data-preset="NASA rover discovers evidence of ancient liquid water in Martian crater.">💧 NASA discovers water ice on Mars</button>
+                    <button type="button" class="chip-button" data-preset="Miracle berry proven to cure diabetes overnight without insulin treatments.">⚠️ Miracle berry cures diabetes overnight</button>
+                    <button type="button" class="chip-button" data-preset="Global central banks report 3.2% annual GDP inflation index stabilization.">📈 Central banks report GDP inflation trends</button>
+                  </div>
+                </div>
+                <div class="form-actions">
+                  <button type="submit" class="button button-primary" id="analyzeTextBtn">
+                    <span>Analyze Content</span>
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- URL Input Panel -->
+            <div id="urlPanel" class="tab-panel" role="tabpanel" aria-labelledby="urlTab">
+              <form id="urlForm" class="input-form">
+                <div class="form-group">
+                  <label for="urlInput" class="form-label">Article URL</label>
+                  <div class="input-with-icon">
+                    <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    <input id="urlInput" type="url" class="text-input url-field" placeholder="https://example-news.com/article/123" aria-describedby="urlHint"/>
+                  </div>
+                  <div id="urlHint" class="form-hint">
+                    <svg class="hint-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                    Extracts metadata and checks domain reputation against trusted fact registries
+                  </div>
+                </div>
+                <div class="presets-container">
+                  <span class="presets-label">Try a sample URL:</span>
+                  <div class="preset-chips">
+                    <button type="button" class="chip-button" data-preset-url="https://www.bbc.com/news/science-environment-56844601">🌐 BBC News Science Article</button>
+                    <button type="button" class="chip-button" data-preset-url="https://www.reuters.com/business/finance/">📰 Reuters Finance Report</button>
+                  </div>
+                </div>
+                <div class="form-actions">
+                  <button type="submit" class="button button-primary" id="analyzeUrlBtn">
+                    <span>Analyze URL</span>
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </main>
+        </main>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loadingState" class="state">
+      <div class="container">
+        <div class="loading-content">
+          <div class="radar-spinner">
+            <div class="radar-ring ring-1"></div><div class="radar-ring ring-2"></div><div class="radar-ring ring-3"></div>
+            <div class="radar-core"><svg class="radar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          </div>
+          <div class="loading-text-group">
+            <h3 class="loading-title">VeriDS Intelligence Engine</h3>
+            <p id="loadingMessage" class="loading-message">Initializing multi-layer content analysis...</p>
+            <div class="loading-steps">
+              <div id="step1" class="step-pill active">1. Extracting Claims</div>
+              <div id="step2" class="step-pill">2. Domain Reputation</div>
+              <div id="step3" class="step-pill">3. Cross-Referencing</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Result State -->
+    <div id="resultState" class="state">
+      <div class="container">
+        <header class="result-header">
+          <button id="backButton" class="back-button" aria-label="Go back to input">
+            <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Back to Search
+          </button>
+          <h2 class="result-header-title">Verification Intelligence Report</h2>
+          <div class="result-actions-group">
+            <button id="copyResultBtn" class="action-button" title="Copy report summary"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy Report</span></button>
+            <button id="exportJsonBtn" class="action-button" title="Export raw JSON report"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span>Export JSON</span></button>
+            <button id="exportCsvBtn" class="action-button" title="Export CSV summary data"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Export CSV</span></button>
+            <button id="printReportBtn" class="action-button" title="Download PDF or Print Report"><svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg><span>Save PDF / Print</span></button>
+          </div>
+        </header>
+
+        <main class="result-section">
+          <div class="score-card">
+            <div class="score-gauge-container">
+              <svg id="scoreGauge" class="score-gauge" viewBox="0 0 200 200" aria-labelledby="scoreText">
+                <defs>
+                  <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" class="gradient-start" stop-color="#10B981" />
+                    <stop offset="100%" class="gradient-end" stop-color="#059669" />
+                  </linearGradient>
+                  <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="4" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                  </filter>
+                </defs>
+                <circle class="gauge-bg" cx="100" cy="100" r="82" />
+                <circle class="gauge-progress" cx="100" cy="100" r="82" filter="url(#glow)" />
+                <text id="scoreText" class="score-text" x="100" y="95" text-anchor="middle">0</text>
+                <text class="score-subtext" x="100" y="122" text-anchor="middle">CONFIDENCE %</text>
+              </svg>
+            </div>
+            <div class="score-info">
+              <div class="verdict-header-row">
+                <span class="verdict-caption">Verdict Assessment</span>
+                <span id="verdictBadge" class="verdict-badge">Pending</span>
+                <span id="langBadge" class="lang-badge">Language: English</span>
+              </div>
+              <h2 id="verdictTitle" class="verdict-title">Analyzing...</h2>
+              <p id="scoreExplanation" class="score-explanation"></p>
+            </div>
+          </div>
+
+          <div class="result-title-card">
+            <div class="card-tag">Analyzed Content</div>
+            <h3 id="resultTitle" class="result-title"></h3>
+            <p id="resultUrl" class="result-url"></p>
+          </div>
+
+          <div class="evidence-section">
+            <h3 class="section-title">Evidence Breakdown</h3>
+            <div class="evidence-cards">
+              <div class="evidence-card">
+                <div class="evidence-header">
+                  <div class="evidence-title-group"><svg class="evidence-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><h4 class="evidence-title">Source Trust</h4></div>
+                  <div id="sourceTrustScore" class="evidence-score">-</div>
+                </div>
+                <div class="progress-bar"><div id="sourceTrustBar" class="progress-fill"></div></div>
+                <ul id="sourceTrustList" class="evidence-list"></ul>
+              </div>
+
+              <div class="evidence-card">
+                <div class="evidence-header">
+                  <div class="evidence-title-group"><svg class="evidence-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><h4 class="evidence-title">Language & Tone</h4></div>
+                  <div id="linguisticScore" class="evidence-score">-</div>
+                </div>
+                <div class="progress-bar"><div id="linguisticBar" class="progress-fill"></div></div>
+                <ul id="linguisticList" class="evidence-list"></ul>
+              </div>
+
+              <div class="evidence-card">
+                <div class="evidence-header">
+                  <div class="evidence-title-group"><svg class="evidence-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><h4 class="evidence-title">Fact Corroboration</h4></div>
+                  <div id="corroborationScore" class="evidence-score">-</div>
+                </div>
+                <div class="progress-bar"><div id="corroborationBar" class="progress-fill"></div></div>
+                <ul id="corroborationList" class="evidence-list"></ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="sources-section">
+            <h3 class="section-title">Reference Sources & Signals</h3>
+            <div id="sourcesList" class="sources-list"></div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div id="errorState" class="state">
+      <div class="container">
+        <div class="error-content">
+          <div class="error-icon-wrapper"><svg class="error-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+          <h2 id="errorTitle" class="error-title">Analysis Error</h2>
+          <p id="errorMessage" class="error-message"></p>
+          <p id="errorDetails" class="error-details"></p>
+          <button id="errorBackButton" class="button button-primary" aria-label="Go back to input">Return to Verification Form</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
